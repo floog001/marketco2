@@ -1,10 +1,21 @@
 import Fastify from "fastify";
+import prisma from "./db/prisma";
 
 const server = Fastify({
   logger: true
 });
 
 server.get("/health", async () => ({ status: "ok" }));
+
+server.get("/db/health", async (request, reply) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    return { status: "ok" };
+  } catch (error) {
+    request.log.error({ error }, "Database health check failed");
+    return reply.status(500).send({ status: "error" });
+  }
+});
 
 const port = Number(process.env.PORT ?? 3000);
 const host = process.env.HOST ?? "0.0.0.0";

@@ -51,3 +51,16 @@ From the repo root:
 - `npm run build` — build the API
 - `npm run start` — run the built API
 - `npm run test` — placeholder test script
+
+## Authentication
+
+The API exposes two endpoints for authentication:
+
+- `POST /auth/register` with `{ "email": "user@example.com", "password": "..." }` to create a user.
+- `POST /auth/login` with `{ "email": "user@example.com", "password": "..." }` to receive a JWT.
+
+
+
+
+
+

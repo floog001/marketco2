@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
+import prisma from "../db/prisma";
 import { signJwt } from "../utils/jwt";
 
 const prisma = new PrismaClient();
@@ -29,25 +30,6 @@ export const registerUser = async (email: string, password: string) => {
 };
 
 export const loginUser = async (email: string, password: string) => {
-  const user = await prisma.user.findUnique({
-    where: { email },
-  });
-
-  if (!user) {
-    throw new Error("INVALID_CREDENTIALS");
-  }
-
-  const isValid = await bcrypt.compare(password, user.passwordHash);
-  if (!isValid) {
-    throw new Error("INVALID_CREDENTIALS");
-  }
-
-  const token = signJwt({
-    sub: user.id,
-    email: user.email,
-  });
-
-  return {
     token,
   };
 };

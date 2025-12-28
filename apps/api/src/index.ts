@@ -1,11 +1,14 @@
 import Fastify from "fastify";
 import prisma from "./db/prisma";
+import { requestIdHook } from "./middleware/requestId";
 import authRoutes from "./routes/auth";
 import meRoutes from "./routes/me";
 
 const server = Fastify({
   logger: true
 });
+
+server.addHook("onRequest", requestIdHook);
 
 server.get("/health", async () => ({ status: "ok" }));
 
@@ -32,6 +35,3 @@ const start = async () => {
     server.log.error(error, "Failed to start server");
     process.exit(1);
   }
-};
-
-start();

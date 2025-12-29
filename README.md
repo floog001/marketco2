@@ -10,6 +10,7 @@ Backend/API repository for MarketCo. No mobile/web frontend code in this repo.
 ## Environment variables
 
 Copy `.env.example` to `.env` and adjust as needed.
+Copy `.env.example` to `.env` in the repo root for Docker Compose and local runs.
 
 | Variable | Description | Default |
 | --- | --- | --- |
@@ -18,6 +19,7 @@ Copy `.env.example` to `.env` and adjust as needed.
 | `DATABASE_URL` | Postgres connection string | `postgres://marketco:marketco@localhost:5432/marketco` |
 
 ## Run locally in 5 minutes
+## Run locally
 
 1. Install dependencies:
 
@@ -43,6 +45,11 @@ Expected response:
 {"status":"ok"}
 ```
 
+## Prisma
+
+Canonical schema: `apps/api/prisma/schema.prisma`  
+Migrations live in `apps/api/prisma/migrations`.
+
 ## Scripts
 
 From the repo root:
@@ -58,6 +65,18 @@ The API exposes two endpoints for authentication:
 
 - `POST /auth/register` with `{ "email": "user@example.com", "password": "..." }` to create a user.
 - `POST /auth/login` with `{ "email": "user@example.com", "password": "..." }` to receive a JWT.
+
+Auth endpoints are rate limited. Use `X-Request-Id` to supply a request ID header for tracing.
+
+## Endpoints
+
+- `GET /health`
+- `GET /db/health`
+- `POST /auth/register`
+- `POST /auth/login`
+- `GET /me`
+
+
 
 
 

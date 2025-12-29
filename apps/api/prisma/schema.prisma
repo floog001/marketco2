@@ -13,3 +13,27 @@ model User {
   passwordHash String
   createdAt    DateTime @default(now())
 }
+
+model Listing {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  currency    String   @default("GBP")
+  priceCents  Int
+  status      String   @default("DRAFT")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  items       Item[]
+}
+
+model Item {
+  id        String   @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id])
+  category  String
+  brand     String?
+  size      String?
+  condition String   @default("GOOD")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

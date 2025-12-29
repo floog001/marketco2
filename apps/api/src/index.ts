@@ -2,6 +2,7 @@ import Fastify from "fastify";
 import prisma from "./db/prisma";
 import { requestIdHook } from "./middleware/requestId";
 import authRoutes from "./routes/auth";
+import listingRoutes from "./routes/listings";
 import meRoutes from "./routes/me";
 
 const server = Fastify({
@@ -23,6 +24,7 @@ server.get("/db/health", async (request, reply) => {
 });
 
 server.register(authRoutes);
+server.register(listingRoutes);
 server.register(meRoutes);
 
 const port = Number(process.env.PORT ?? 3000);
